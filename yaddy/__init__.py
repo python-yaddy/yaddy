@@ -6,9 +6,11 @@ yaddy.
 """
 
 from .entity import Entity
+from .value import Value
 
 __version__ = "0.1.0"
 
 __all__ = [
     "Entity",
+    "Value",
 ]

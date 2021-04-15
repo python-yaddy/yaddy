@@ -11,6 +11,7 @@ class Entity:
 
     Entity is mutable so it has to have an unique identifier
     (uid).
+    Entity can be composed from other entites and values.
     """
 
     def __init__(
