@@ -1,0 +1,39 @@
+repos:
+  - repo: local
+    hooks:
+      - id: mypy
+        name: mypy
+        entry: poetry run mypy --strict yaddy
+        pass_filenames: false
+        always_run: true
+        language: system
+      - id: unit-tests
+        name: unit-tests
+        entry: poetry run python3 -m pytest tests
+        pass_filenames: false
+        always_run: true
+        language: system
+      - id: black
+        name: black
+        entry: poetry run black --check yaddy
+        pass_filenames: false
+        always_run: true
+        language: system
+      - id: isort
+        name: isort
+        entry: poetry run isort --check yaddy
+        pass_filenames: false
+        always_run: true
+        language: system
+      - id: pylint
+        name: pylint
+        entry: poetry run pylint --fail-under=10.0 yaddy
+        pass_filenames: false
+        always_run: true
+        language: system
+      - id: bandit
+        name: bandit
+        entry: poetry run bandit yaddy
+        pass_filenames: false
+        always_run: true
+        language: system
