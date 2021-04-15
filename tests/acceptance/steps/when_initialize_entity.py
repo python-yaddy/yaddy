@@ -7,3 +7,10 @@ def step_implementation(context, entity, cls, arguments):
     kwargs = eval("dict(" + arguments + ")")
     instance = class_(**kwargs)
     setattr(context, entity, instance)
+
+
+@when("I initialize {entity} from {cls}")
+def step_implementation(context, entity, cls):
+    class_ = getattr(context, cls)
+    instance = class_()
+    setattr(context, entity, instance)
