@@ -1,7 +1,7 @@
 """
 This module describes Entity class.
 """
-from typing import Any, Optional
+from typing import Any, Dict, Optional
 from uuid import uuid4
 
 
@@ -11,17 +11,22 @@ class Entity:
 
     Entity is mutable so it has to have an unique identifier
     (uid).
-    Entity can be composed from other entites and values.
+    Entity can be composed from other entities and values.
     """
+
+    uid: str
 
     def __init__(
         self,
         *,
         uid: Optional[str] = None,
+        **kwargs: Dict[str, Any],
     ):
         if uid is None:
             uid = self.uid_factory()
         self.uid = uid
+        for field, value in kwargs.items():
+            setattr(self, field, value)
 
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}(uid={self.uid!r})"
