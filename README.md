@@ -14,12 +14,12 @@ High-level (acceptance, e2e) tests
 could be run with:
 
 ```Shell
-poetry run behave
+poetry run accept
 ```
 
 Developer (unit) tests could be run
 with:
 
 ```Shell
-poetry run python -m pytest
+poetry run unit
 ```
