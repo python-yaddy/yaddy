@@ -28,3 +28,12 @@ def test_two_entities_with_same_uid_are_equal():
     entity_two = Entity(uid=uid)
 
     assert entity_one == entity_two
+
+def test_entity_subclassing_generates_default_initializer_based_on_annotations():
+    class Author(Entity):
+
+        name: str
+
+    name = "Edgar Alan Poe"
+    author = Author(name=name)
+    assert author.name == name
