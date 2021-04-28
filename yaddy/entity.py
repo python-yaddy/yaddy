@@ -19,7 +19,7 @@ class Entity:
     def __init__(
         self,
         *,
-        uid: Optional[str] = None,
+        uid: Optional[str] = None,  # pylint: disable=unsubscriptable-object
         **kwargs: Any,
     ):
         if uid is None:
@@ -29,7 +29,11 @@ class Entity:
             setattr(self, field, value)
 
     def __repr__(self) -> str:
-        return f"{self.__class__.__name__}(uid={self.uid!r})"
+        fields = self.__annotations__.keys()  # pylint: disable=no-member
+        values = ((field, getattr(self, field)) for field in fields)
+        parameters = (f"{field}={value!r}" for field, value in values)
+
+        return f"{self.__class__.__name__}({', '.join(parameters)})"
 
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, self.__class__):
