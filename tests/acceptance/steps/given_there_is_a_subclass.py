@@ -1,14 +1,24 @@
+import sys
+
 from behave import given
+from utils import propagate_scope
+
 import yaddy
 
 
 @given("there is a subclass of {parent} called {child} with fields {fields}")
+@propagate_scope(__name__)
 def step_implementation(context, parent, child, fields):
     """
-    Parent should be accessible to import from yaddy
+    Parent should be accessible to import from yaddy or context
 
     child class will be created dynamically and put into context
     """
+
+    module = sys.modules[__name__]
+    for name, value in context.scope.items():
+        value = context.scope[name]
+        setattr(module, name, value)
 
     parent_class = getattr(yaddy, parent)
     fields_dict = {
@@ -16,25 +26,28 @@ def step_implementation(context, parent, child, fields):
         for field, type_ in map(lambda item: item.split(":"), fields.split(","))
     }
 
-    class_ = type(child, (parent_class, ), {
+    class_ = type(
+        child,
+        (parent_class,),
+        {
+            "__annotations__": fields_dict,
+        },
+    )
 
-    })
-
-    for field, type_ in fields_dict.items():
-        class_.__annotations__[field] = type_
-
-    setattr(context, child, class_)
+    context.scope[child] = class_
 
 
 @given("there is a subclass of {parent} called {child}")
+@propagate_scope(__name__)
 def step_implementation(context, parent, child):
     """
-    Parent should be accessible to import from yaddy
+    Parent should be accessible to import from yaddy or context
 
     child class will be created dynamically and put into context
     """
+
     parent_class = getattr(yaddy, parent)
 
-    class_ = type(child, (parent_class, ), {})
+    class_ = type(child, (parent_class,), {})
 
-    setattr(context, child, class_)
+    context.scope[child] = class_

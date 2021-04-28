@@ -1,16 +1,17 @@
 from behave import when
+from utils import propagate_scope
 
 
 @when("I initialize {entity} from {cls} with {arguments}")
+@propagate_scope(__name__)
 def step_implementation(context, entity, cls, arguments):
-    class_ = getattr(context, cls)
     kwargs = eval("dict(" + arguments + ")")
-    instance = class_(**kwargs)
-    setattr(context, entity, instance)
+    instance = eval(cls)(**kwargs)
+    context.scope[entity] = instance
 
 
 @when("I initialize {entity} from {cls}")
+@propagate_scope(__name__)
 def step_implementation(context, entity, cls):
-    class_ = getattr(context, cls)
-    instance = class_()
-    setattr(context, entity, instance)
+    instance = eval(cls)()
+    context.scope[entity] = instance
