@@ -1,7 +1,7 @@
 """
 This module describes Entity class.
 """
-from typing import Any, Optional
+from typing import Any, Dict, Iterable, Optional
 from uuid import uuid4
 
 
@@ -29,7 +29,7 @@ class Entity:
             setattr(self, field, value)
 
     def __repr__(self) -> str:
-        fields = self.__annotations__.keys()  # pylint: disable=no-member
+        fields = self.fields
         values = ((field, getattr(self, field)) for field in fields)
         parameters = (f"{field}={value!r}" for field, value in values)
 
@@ -44,3 +44,20 @@ class Entity:
     def uid_factory() -> str:
         """Construct uid if it was not given to the init method."""
         return uuid4().hex
+
+    @property
+    def fields(self) -> Iterable[str]:
+        "Return fields for current object"
+        fields = self.__annotations__.keys()  # pylint: disable=no-member
+        return fields
+
+    def asdict(self) -> Dict[str, Any]:
+        """Return dictionary serialization for entity"""
+        fields = self.fields
+        res = {}
+        for field in fields:
+            value = getattr(self, field)
+            if isinstance(value, Entity):
+                value = value.asdict()
+            res[field] = value
+        return res
