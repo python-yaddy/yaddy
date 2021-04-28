@@ -47,7 +47,7 @@ class Entity:
 
     @property
     def fields(self) -> Iterable[str]:
-        "Return fields for current object"
+        """Return fields for current object"""
         fields = self.__annotations__.keys()  # pylint: disable=no-member
         return fields
 
