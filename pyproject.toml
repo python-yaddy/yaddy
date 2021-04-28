@@ -1,9 +1,11 @@
 [tool.poetry]
 name = "yaddy"
-version = "0.1.0"
+version = "0.1.1"
 description = "Yet Another Domain (Driven) Development librarY for Python"
 authors = ["S. Guliaev <dev.sagul@gmail.com>"]
 license = "MIT"
+readme = "README.md"
+repository = "https://github.com/python-yaddy/yaddy"
 
 [tool.poetry.dependencies]
 python = "^3.9"
