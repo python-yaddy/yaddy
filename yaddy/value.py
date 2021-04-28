@@ -17,7 +17,7 @@ class Value(DomainObject):
     def __eq__(self, other: Any) -> bool:
         if type(self) is not type(other):
             return False
-        for variable in vars(self):
+        for variable in self.fields:
             if getattr(self, variable) != getattr(other, variable):
                 return False
         return True
