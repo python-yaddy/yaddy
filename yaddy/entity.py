@@ -1,7 +1,7 @@
 """
 This module describes Entity class.
 """
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 from uuid import uuid4
 
 
@@ -20,7 +20,7 @@ class Entity:
         self,
         *,
         uid: Optional[str] = None,
-        **kwargs: Dict[str, Any],
+        **kwargs: Any,
     ):
         if uid is None:
             uid = self.uid_factory()
